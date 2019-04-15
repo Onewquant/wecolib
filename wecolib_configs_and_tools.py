@@ -6,6 +6,7 @@ import json
 import xlsxwriter
 import openpyxl
 import os
+import win32com.client
 
 ###########################################
 ## Multiprocessing 관련
@@ -74,14 +75,14 @@ import seaborn as sns
 
 ## MSSQL 데이터베이스 접속 정보
 
-mssql_ip_address = 'database_ip_adress'
-mssql_id = 'db_id'
-mssql_pw = 'db_pw'
+mssql_ip_address = 'DataBase_IP_주소'
+mssql_id = 'DB_id'
+mssql_pw = 'DB_pw'
 
 ## 텔레그램 SNS 알람 정보
 
-telegram_bot_api_token = 'telegram_api_token'
-telegram_bot_chat_id_list = ["telegram_id_no1",]
+telegram_bot_api_token = '텔레그램_봇_토큰'
+telegram_bot_chat_id_list = ["텔레그램_id_no",]
 
 
 
