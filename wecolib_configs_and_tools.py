@@ -9,6 +9,14 @@ import os
 import win32com.client
 
 ###########################################
+## Automation 관련 import
+###########################################
+
+import pywinauto
+from pywinauto import application, timings
+import pyautogui
+
+###########################################
 ## Multiprocessing 관련
 ###########################################
 
@@ -72,18 +80,28 @@ import seaborn as sns
 ## onew quantmod 관련 configurations
 ###########################################
 
-
 ## MSSQL 데이터베이스 접속 정보
 
-mssql_ip_address = 'DataBase_IP_주소'
-mssql_id = 'DB_id'
-mssql_pw = 'DB_pw'
+mssql_ip_address = '175.207.61.174'
+mssql_id = 'onew'
+mssql_pw = '745783'
 
 ## 텔레그램 SNS 알람 정보
 
-telegram_bot_api_token = '텔레그램_봇_토큰'
-telegram_bot_chat_id_list = ["텔레그램_id_no",]
+telegram_bot_api_token = '536710324:AAE5_RURRqF0ZxkJIIssW0RmL4zN0nRoOKs'
+telegram_bot_chat_id_list = ["570303438",]
 
+
+# ## MSSQL 데이터베이스 접속 정보
+#
+# mssql_ip_address = 'DataBase_IP_주소'
+# mssql_id = 'DB_id'
+# mssql_pw = 'DB_pw'
+#
+# ## 텔레그램 SNS 알람 정보
+#
+# telegram_bot_api_token = '텔레그램_봇_토큰'
+# telegram_bot_chat_id_list = ["텔레그램_id_no",]
 
 
 ###########################################################################
@@ -586,6 +604,8 @@ def kor_queue_price_n_units_changed_delicate_version(market,price,n):
     first_return = kor_queue_price_n_units_changed(market=market,price=price,n=n)
     final_return = kor_queue_price_more_than(market=market,price=first_return)
     return final_return
+
+
 
 ## 로우 데이터 로딩
 ## from wecolib.Curvelib_get_raw_data import *
