@@ -7,6 +7,7 @@ import xlsxwriter
 import openpyxl
 import os
 import win32com.client
+import random
 
 ###########################################
 ## Automation 관련 import
@@ -39,7 +40,19 @@ from bs4 import BeautifulSoup
 import requests
 from io import BytesIO
 
-############################################# Pandas 관련 import
+###########################################
+## 셀레늄 관련 import
+###########################################
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait,Select
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import DesiredCapabilities
+
+#############################################
+# Pandas 관련 import
 ###########################################
 
 import pandas as pd
@@ -80,29 +93,29 @@ import seaborn as sns
 ## onew quantmod 관련 configurations
 ###########################################
 
+
 ## MSSQL 데이터베이스 접속 정보
 
-mssql_ip_address = '175.207.61.174'
-mssql_id = 'onew'
-mssql_pw = '745783'
+mssql_ip_address = 'DataBase_IP_주소'
+mssql_id = 'DB_id'
+mssql_pw = 'DB_pw'
 
 ## 텔레그램 SNS 알람 정보
 
-telegram_bot_api_token = '536710324:AAE5_RURRqF0ZxkJIIssW0RmL4zN0nRoOKs'
-telegram_bot_chat_id_list = ["570303438",]
+telegram_bot_api_token = '텔레그램_봇_토큰'
+telegram_bot_chat_id_list = ["텔레그램_id_no",]
 
+## investing.com 로그인 정보
+investing_id = ''
+investing_pw = ''
 
-# ## MSSQL 데이터베이스 접속 정보
-#
-# mssql_ip_address = 'DataBase_IP_주소'
-# mssql_id = 'DB_id'
-# mssql_pw = 'DB_pw'
-#
-# ## 텔레그램 SNS 알람 정보
-#
-# telegram_bot_api_token = '텔레그램_봇_토큰'
-# telegram_bot_chat_id_list = ["텔레그램_id_no",]
+## Chrome webdriver file path
 
+chromedriver_file_path = ''
+
+## Phantomjs_file_path
+
+phantomjs_file_path = ''
 
 ###########################################################################
 ##                          SQL-Connection
