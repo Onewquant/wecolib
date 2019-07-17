@@ -94,40 +94,16 @@ import seaborn as sns
 ###########################################
 
 
-# ## MSSQL 데이터베이스 접속 정보
-#
-# mssql_ip_address = 'DataBase_IP_주소'
-# mssql_id = 'DB_id'
-# mssql_pw = 'DB_pw'
-#
-# ## 텔레그램 SNS 알람 정보
-#
-# telegram_bot_api_token = '텔레그램_봇_토큰'
-# telegram_bot_chat_id_list = ["텔레그램_id_no",]
-#
-# ## investing.com 로그인 정보
-# investing_id = ''
-# investing_pw = ''
-#
-# ## Chrome webdriver file path
-#
-# chromedriver_file_path = ''
-#
-# ## Phantomjs_file_path
-#
-# phantomjs_file_path = ''
-
-
 ## MSSQL 데이터베이스 접속 정보
 
-mssql_ip_address = '175.207.61.174'
-mssql_id = 'onew'
-mssql_pw = '745783'
+mssql_ip_address = 'DataBase_IP_주소'
+mssql_id = 'DB_id'
+mssql_pw = 'DB_pw'
 
 ## 텔레그램 SNS 알람 정보
 
-telegram_bot_api_token = '536710324:AAE5_RURRqF0ZxkJIIssW0RmL4zN0nRoOKs'
-telegram_bot_chat_id_list = ["570303438",]
+telegram_bot_api_token = '텔레그램_봇_토큰'
+telegram_bot_chat_id_list = ["텔레그램_id_no",]
 
 ## investing.com 로그인 정보
 investing_id = ''
@@ -140,6 +116,7 @@ chromedriver_file_path = ''
 ## Phantomjs_file_path
 
 phantomjs_file_path = ''
+
 
 ###########################################################################
 ##                          SQL-Connection
