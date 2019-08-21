@@ -9,6 +9,7 @@ import os
 import win32com.client
 import random
 
+
 ###########################################
 ## Automation 관련 import
 ###########################################
@@ -75,6 +76,7 @@ import time
 from datetime import datetime, timedelta
 import calendar
 from dateutil.relativedelta import relativedelta
+import pytz
 
 ###########################################
 ## Stats관련 import
@@ -94,16 +96,39 @@ import seaborn as sns
 ###########################################
 
 
+# ## MSSQL 데이터베이스 접속 정보
+#
+# mssql_ip_address = 'DataBase_IP_주소'
+# mssql_id = 'DB_id'
+# mssql_pw = 'DB_pw'
+#
+# ## 텔레그램 SNS 알람 정보
+#
+# telegram_bot_api_token = '텔레그램_봇_토큰'
+# telegram_bot_chat_id_list = ["텔레그램_id_no",]
+#
+# ## investing.com 로그인 정보
+# investing_id = ''
+# investing_pw = ''
+#
+# ## Chrome webdriver file path
+#
+# chromedriver_file_path = ''
+#
+# ## Phantomjs_file_path
+#
+# phantomjs_file_path = ''
+
 ## MSSQL 데이터베이스 접속 정보
 
-mssql_ip_address = 'DataBase_IP_주소'
-mssql_id = 'DB_id'
-mssql_pw = 'DB_pw'
+mssql_ip_address = '175.207.61.174'
+mssql_id = 'onew'
+mssql_pw = '745783'
 
 ## 텔레그램 SNS 알람 정보
 
-telegram_bot_api_token = '텔레그램_봇_토큰'
-telegram_bot_chat_id_list = ["텔레그램_id_no",]
+telegram_bot_api_token = '536710324:AAE5_RURRqF0ZxkJIIssW0RmL4zN0nRoOKs'
+telegram_bot_chat_id_list = ["570303438",]
 
 ## investing.com 로그인 정보
 investing_id = ''
@@ -116,7 +141,6 @@ chromedriver_file_path = ''
 ## Phantomjs_file_path
 
 phantomjs_file_path = ''
-
 
 ###########################################################################
 ##                          SQL-Connection
@@ -297,6 +321,49 @@ def generate_day_index_df(start_date,end_date=None):
     df.index = pd.to_datetime(df.index)
 
     return df
+
+def timestamp_into_kst_time(ts):
+    KST = pytz.timezone('Asia/Seoul')
+    try:
+        dt = datetime.utcfromtimestamp(ts)
+        k_dt = pytz.utc.localize(dt).astimezone(KST)
+        return k_dt
+    except:
+        return np.nan
+
+def datetime_obj_into_str_with_error_ignoring(dt):
+    try:
+        dt_str = dt.strftime('%Y-%m-%d %H:%M:%S')
+        return dt_str
+    except:
+        return np.nan
+
+def datetime_str_into_datetime_ignore_nan(st):
+    try:
+        return datetime.strptime(st, '%Y.%m.%d %H:%M:%S').strftime('%Y-%m-%d %H:%M:%S')
+    except:
+        return np.nan
+
+def datestr_into_dot_styl_datestr_ignoring_err(raw_str):
+    try:
+        dot_str = '{}.{}.{} 00:00:00'.format(raw_str[0:4], raw_str[4:6], raw_str[6:8])
+    except:
+        dot_str = ''
+    return dot_str
+
+def anything_into_float_with_nan(val):
+    try:
+        f = float(val)
+    except:
+        f = np.nan
+    return f
+
+def anything_into_int_with_nan(val):
+    try:
+        f = int(val)
+    except:
+        f = np.nan
+    return f
 
 ## 가장 가까운 날짜 찾기 (datetime)
 
