@@ -32,11 +32,11 @@ class quantitative_search():
         self.sv_data_columns = ['Open_', 'High', 'Low', 'Close_', 'Volume', 'DA1_Open_', 'DA1_High', 'DA1_Low',
                                 'DA1_Close_', 'Next_Open_', 'Next_High', 'Next_Low', 'Next_Close_', 'Volume_Trend',
                                 'Volume_MA3', 'Volume_MA5', 'Volume_MA20', 'Trd_Amount', 'Trd_Amount_Trend',
-                                'ATR1_Pct','ATR3_Pct','ATR5_Pct','ATR20_Pct','EMA',
-                                'EMA_Trend1', 'EMA_Trend3', 'EMA_Trend5', 'EMA_Trend20', 'EMA_Trend50', 'EMA_Trend100',
-                                'Upper_mBollinger', 'Lower_mBollinger', 'Avg_Width_mBollinger', 'MACD_Fast',
-                                'MACD_Slow', 'MACD_Histogram', 'MACD_Histogram_Trend', 'Force_Index_Norm',
-                                'Force_Index_Fear', 'Force_Index_Greed','Ail_Loss_Cut', 'Asl_Gain_Cut']
+                                'EMA','EMA_Trend1','EMA_Trend2', 'EMA_Trend5', 'EMA_Trend10', 'EMA_Trend20', 'EMA_Trend60', 'EMA_Trend120',
+                                'Upper_Bollinger', 'Lower_Bollinger', 'Avg_Width_Bollinger',
+                                'Upper_mBollinger', 'Lower_mBollinger', 'Avg_Width_mBollinger',
+                                'MACD_Fast', 'MACD_Slow', 'MACD_Histogram', 'MACD_Histogram_Trend']
+
         self.for_sql_columns = ['Open_', 'High', 'Low', 'Close_', 'Volume']
         self.create_tbl_sql_columns = ''
         for str_frag in [', ' + x + ' float' for x in self.sv_data_columns]:

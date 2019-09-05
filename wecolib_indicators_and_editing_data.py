@@ -89,7 +89,7 @@ def cum_rets_dataframe(df,column='Close_'):
 
 ## 단순 이동평균선
 
-def moving_average_dataframe(df,column='Close_',window_list=[5,20,50,100]):
+def moving_average_dataframe(df,column='Close_',window_list=[5,10,20,60,120]):
     dataframe = df
     for window in window_list:
         dataframe['MA%s'%window] = dataframe[column].rolling(center=False, window=window).mean()
@@ -132,20 +132,20 @@ def ema_trend_series(df,window=5):
 
 def ema_trend_dataframe(df,window=5):
     dataframe = df
-    dataframe['EMA_Trend'] = ema_trend_series(df=dataframe,window=window)
+    # dataframe['EMA_Trend'] = ema_trend_series(df=dataframe,window=window)
     dataframe['EMA_Trend1'] = ema_trend_series(df=dataframe, window=1)
     dataframe['EMA_Trend2'] = ema_trend_series(df=dataframe,window=2)
-    dataframe['EMA_Trend3'] = ema_trend_series(df=dataframe,window=3)
     dataframe['EMA_Trend5'] = ema_trend_series(df=dataframe,window=5)
+    dataframe['EMA_Trend10'] = ema_trend_series(df=dataframe,window=10)
     dataframe['EMA_Trend20'] = ema_trend_series(df=dataframe,window=20)
-    dataframe['EMA_Trend50'] = ema_trend_series(df=dataframe,window=50)
-    dataframe['EMA_Trend100'] = ema_trend_series(df=dataframe, window=100)
+    dataframe['EMA_Trend60'] = ema_trend_series(df=dataframe, window=60)
+    dataframe['EMA_Trend120'] = ema_trend_series(df=dataframe,window=120)
 
     return dataframe
 
 ## 평균 이동평균선 스코어 (단순 이평선 이용)
 
-def average_moving_average_score_dataframe(df,column = 'Close_',window_list = [5,20,60,100]):
+def average_moving_average_score_dataframe(df,column = 'Close_',window_list = [5,10,20,60,120]):
     dataframe = df
     cum_ma_series = pd.Series(index=df.index).fillna(0)
     for w in window_list:
@@ -179,6 +179,8 @@ def bollinger_band_dataframe(df,window=20):
 
     dataframe['Upper_Bollinger'] = upper
     dataframe['Lower_Bollinger'] = lower
+
+    dataframe['Avg_Width_Bollinger'] = (dataframe['Upper_Bollinger'] - dataframe['Lower_Bollinger']).rolling(center=False, window=window).mean()
     return dataframe
 
 ## 변형 볼린저밴드 채널 지표 (지수이동평균선을 중심선으로 함)
@@ -507,17 +509,19 @@ def add_on_technical_indicators(df,window=20,price_type='Close_'):
     pdf = price_derivatives_dataframe(df=pdf)
     pdf = trd_volume_dataframe(df=pdf,column=price_type)
     pdf = cum_rets_dataframe(df=pdf,column=price_type)
+    pdf = moving_average_dataframe(df=pdf,column=price_type,window_list=[5,10,20,60,120])
     pdf = exponential_moving_average_dataframe(df=pdf,column=price_type,window=window)
     pdf = ema_trend_dataframe(df=pdf,window=10)
-    pdf = average_moving_average_score_dataframe(df=pdf,column=price_type,window_list=[int(window/4),window,window*3,window*6])
+    pdf = average_moving_average_score_dataframe(df=pdf,column=price_type,window_list=[5,10,20,60,120])
+    pdf = bollinger_band_dataframe(df=pdf, window=20)
     pdf = modified_bollinger_band_dataframe(df=pdf,window=window)
     pdf = average_true_range_dataframe(df=pdf,window=window)
     pdf = macd_dataframe(df=pdf,column=price_type)
-    pdf = force_index_dataframe(df=pdf,column=price_type,window=2)
-    pdf = avg_invasion_length_loss_cut_line_dataframe(df=pdf, coef=2, column='Low', window=window)
-    pdf = avg_skyrocket_length_gain_cut_line_dataframe(df=pdf, coef=2, column='High', window=window)
-    pdf = avg_price_between_lower_bollinger_and_ema_dataframe(df=pdf)
-    pdf = recent_low_price_dataframe(df=pdf,window=5)
+    # pdf = force_index_dataframe(df=pdf,column=price_type,window=2)
+    # pdf = avg_invasion_length_loss_cut_line_dataframe(df=pdf, coef=2, column='Low', window=window)
+    # pdf = avg_skyrocket_length_gain_cut_line_dataframe(df=pdf, coef=2, column='High', window=window)
+    # pdf = avg_price_between_lower_bollinger_and_ema_dataframe(df=pdf)
+    # pdf = recent_low_price_dataframe(df=pdf,window=5)
     # pdf = greatest_swing_value_dataframe(df=pdf)
 
     return pdf
@@ -529,18 +533,20 @@ def edit_prices_df_for_technical_analysis(df_list,window=20,price_type='Close_')
     for pdf in df_list:
         pdf = price_derivatives_dataframe(df=pdf)
         pdf = trd_volume_dataframe(df=pdf, column=price_type)
-        pdf = cum_rets_dataframe(df=pdf,column=price_type)
-        pdf = exponential_moving_average_dataframe(df=pdf,column=price_type,window=window)
-        pdf = ema_trend_dataframe(df=pdf,window=10)
-        pdf = average_moving_average_score_dataframe(df=pdf,column=price_type,window_list=[int(window/4),window,window*3,window*6])
-        pdf = modified_bollinger_band_dataframe(df=pdf,window=window)
+        pdf = cum_rets_dataframe(df=pdf, column=price_type)
+        pdf = moving_average_dataframe(df=pdf, column=price_type, window_list=[5, 10, 20, 60, 120])
+        pdf = exponential_moving_average_dataframe(df=pdf, column=price_type, window=window)
+        pdf = ema_trend_dataframe(df=pdf, window=10)
+        pdf = average_moving_average_score_dataframe(df=pdf, column=price_type, window_list=[5, 10, 20, 60, 120])
+        pdf = bollinger_band_dataframe(df=pdf, window=20)
+        pdf = modified_bollinger_band_dataframe(df=pdf, window=window)
         pdf = average_true_range_dataframe(df=pdf, window=window)
-        pdf = macd_dataframe(df=pdf,column=price_type)
-        pdf = force_index_dataframe(df=pdf,column=price_type,window=2)
-        pdf = avg_invasion_length_loss_cut_line_dataframe(df=pdf,coef=2,column='Low',window=window)
-        pdf = avg_skyrocket_length_gain_cut_line_dataframe(df=pdf,coef=2,column='High',window=window)
-        pdf = avg_price_between_lower_bollinger_and_ema_dataframe(df=pdf)
-        pdf = recent_low_price_dataframe(df=pdf, window=5)
+        pdf = macd_dataframe(df=pdf, column=price_type)
+        # pdf = force_index_dataframe(df=pdf,column=price_type,window=2)
+        # pdf = avg_invasion_length_loss_cut_line_dataframe(df=pdf, coef=2, column='Low', window=window)
+        # pdf = avg_skyrocket_length_gain_cut_line_dataframe(df=pdf, coef=2, column='High', window=window)
+        # pdf = avg_price_between_lower_bollinger_and_ema_dataframe(df=pdf)
+        # pdf = recent_low_price_dataframe(df=pdf,window=5)
         # pdf = greatest_swing_value_dataframe(df=pdf)
 
         ## 기술분석을 위한 dataframe 새로 선언 및 그래프의 Zero line Data 설정
