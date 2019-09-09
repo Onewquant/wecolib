@@ -1038,6 +1038,7 @@ def statistical_analysis_of_trading_simulation(report,drop_duplicates=True,drop_
     if graph_show == True:
         # 예측치 배수의 히스토그램
         r_multiple.hist(grid=True, histtype='bar', rwidth=0.8, alpha=0.8, color='red', bins=50)
+        plt.show()
 
     if result_return == True:
         result_short_cut_basic_list = [searching_start_date, searching_end_date, searching_date_diff,
@@ -1727,7 +1728,15 @@ def analysis_for_market_trend_screening(trd_report, market_country, market_asset
 
 def analysis_for_tdw_screening(trd_report,graph_show):
 
-    week_collection = [['Mon'],['Tue'],['Wed'],['Thu'],['Fri']]
+    week_dict = {0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}
+
+    week_collection = list()
+    week_collection_list = list()
+    week_ds = trd_report['Date_'].map(lambda x:datetime.strptime(x,'%Y-%m-%d').weekday()).drop_duplicates(keep='first').sort_values().reset_index(drop=True)
+    for w in week_ds:
+        week_collection.append([week_dict[w]])
+        week_collection_list.append(week_dict[w])
+
     weekday_stats = list()
     for wc in week_collection:
         weekday_list = wc
@@ -1811,8 +1820,6 @@ def analysis_for_tdw_screening(trd_report,graph_show):
         weekday_stats_df_for_graph['SQN'].plot(ax=axes[2, 1], kind='bar', legend=None, alpha=0.5,color='navy', ylim=(sq_min, sq_max))
         weekday_stats_df_for_graph['Zero_Line'].plot(ax=axes[2, 1], kind='bar', legend=None, alpha=0.5, color='black',ylim=(sq_min, sq_max))
 
-
-        week_collection_list = ['Mon','Tue','Wed','Thu','Fri']
         ## 그래프 정리
         for c in range(col_num):
             for r in range(row_num):
@@ -1822,16 +1829,21 @@ def analysis_for_tdw_screening(trd_report,graph_show):
                 if r == (row_num - 1):
                     axes[r,c].set_xticklabels(['Mon']+week_collection_list, rotation=0, fontsize=9)
 
-
-
     return weekday_stats_df_for_graph
 
 ## Trading Day Of Month (월간 거래일별 트레이딩 결과)
 
 def analysis_for_trading_month_screening(trd_report,graph_show):
 
+    month_dict = {'01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun', '07': 'Jul',
+                  '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
+    month_collection = list()
+    month_collection_list = list()
+    month_ds = trd_report['Date_'].map(lambda x: x[5:7]).drop_duplicates(keep='first').sort_values(ascending=True).reset_index(drop=True)
+    for m in month_ds:
+        month_collection.append([m])
+        month_collection_list.append(month_dict[m])
 
-    month_collection = [['01'],['02'],['03'],['04'],['05'],['06'],['07'],['08'],['09'],['10'],['11'],['12']]
     monthly_stats = list()
     for mc in month_collection:
         month_list = mc
@@ -1840,7 +1852,7 @@ def analysis_for_trading_month_screening(trd_report,graph_show):
         monthly_stats.append(statistical_result_frag)
 
     monthly_stats_df =pd.concat(monthly_stats).reset_index(drop=True)
-    monthly_stats_df.index = list(np.arange(1,13,1))
+    monthly_stats_df.index = list(month_ds.map(lambda x:int(x)))
 
     ## TM Statistics 그래프를 위한 전처리
     month_stats_df_for_graph = monthly_stats_df
@@ -1912,7 +1924,6 @@ def analysis_for_trading_month_screening(trd_report,graph_show):
         month_stats_df_for_graph['SQN'].plot(ax=axes[2,1], kind='bar', legend=None, alpha=0.5,color='navy', ylim=(sq_min, sq_max))
         month_stats_df_for_graph['Zero_Line'].plot(ax=axes[2,1], kind='bar', legend=None, alpha=0.5, color='black',ylim=(sq_min, sq_max))
 
-        month_collection_list = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
         ## 그래프 정리
         for c in range(col_num):
             for r in range(row_num):

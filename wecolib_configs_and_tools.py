@@ -5,7 +5,7 @@
 import json
 import xlsxwriter
 import openpyxl
-import os
+import os, sys
 import win32com.client
 import random
 
@@ -17,6 +17,16 @@ import random
 import pywinauto
 from pywinauto import application, timings
 import pyautogui
+
+###########################################
+## PyQt 관련 import
+###########################################
+
+from PyQt5.QtWidgets import *
+from PyQt5 import uic
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QAxContainer import *
 
 ###########################################
 ## Multiprocessing 관련
@@ -108,6 +118,7 @@ telegram_bot_api_token = '텔레그램_봇_토큰'
 telegram_bot_chat_id_list = ["텔레그램_id_no",]
 
 ## investing.com 로그인 정보
+
 investing_id = ''
 investing_pw = ''
 
@@ -119,6 +130,18 @@ chromedriver_file_path = ''
 
 phantomjs_file_path = ''
 
+# Kiwoom Trader
+
+kiwoom_id = ''
+kiwoom_pw = ''
+kiwoom_certification_pw = ''
+
+
+# Creon Trader
+
+creon_id = ''
+creon_pw = ''
+creon_cert = ''
 
 ###########################################################################
 ##                          SQL-Connection
